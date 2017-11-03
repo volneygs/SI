@@ -24,19 +24,35 @@
             <a class="btn btn-outline-success my-2 my-sm-0" href="#">Disabled</a>
 
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Artista/Música" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Artista/Música" aria-label="Search" ng-model="artista.nome">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="alteraMenu(3)" ng-click="procuraArtista(artista)">Buscar</button>
             </form>
 
           </div>
         </div>
       </nav>
 
+      <div class="jumbotron" ng-show="menuListaDeArtistas">
+
+        <h3 style="text-align: center">Lista de Artistas</h3>
+        <table class="table table-striped">
+
+          <tr>
+            <th>Nome</th>
+          </tr>
+          <tr ng-repeat="artista in listaArtistaProcurado">
+            <td>{{artista.nome}}</td>
+            <td><button class="btn btn-outline-success my-2 my-sm-0" type="button" name="button" ng-click="adicionarListaDeFavoritos(artista)"></button></td>
+          </tr>
+        </table>
+
+      </div>
+
       <div class="jumbotron" ng-show="menuArtista">
 
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="artista.nome">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Imagem" ng-model="artista.imagem">
-        <button class="btn-block btn btn-success" style="width: 400px" type="button" ng-disabled="!artista.nome" ng-click="adicionarArtista(artista)">Adicionar</button>
+        <button class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-disabled="!artista.nome" ng-click="adicionarArtista(artista)">Adicionar</button>
 
       </div>
 
@@ -47,9 +63,9 @@
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Álbum" ng-model="musica.album">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Ano de Lançamento" ng-model="musica.anoDeLancamento">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Duração" ng-model="musica.duracao">
-        <button class="btn-block btn btn-success" style="width: 400px" type="button" ng-disabled="!musica.nome || !musica.artista || !musica.album || !musica.anoDeLancamento || !musica.duracao" ng-click="adicionarMusica(musica)">Adicionar</button>
-
+        <button class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-disabled="!musica.nome || !musica.artista || !musica.album || !musica.anoDeLancamento || !musica.duracao" ng-click="adicionarMusica(musica)">Adicionar</button>
       </div>
+
     </body>
 
 
