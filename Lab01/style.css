@@ -1,19 +1,23 @@
-.btn{
-  margin-right: 5px;
-  margin-top: 5px;
-  margin-left: auto;
+.topoPagina{
+  text-align: center;
+  background-color: #001a00;
+  background-image: url("/home/volney/Documentos/SI/Lab01/Images/index-background.jpg");
+  background-repeat: round;
+  background-attachment: fixed;
+  background-position: center;
 }
 
-.form-control{
+.botoes{
   width: 400px;
+  margin-top: 60px;
   margin-left: auto;
   margin-right: auto;
-
 }
 
-.jumbotron{
-  width: 600px;
-  margin-top: 5px;
-  margin-left: auto;
-  margin-right: auto;
+.table{
+  text-align: center;
+}
+
+.fonte{
+
 }
