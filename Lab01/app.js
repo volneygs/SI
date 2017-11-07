@@ -95,6 +95,7 @@ app.controller("ispotifaiCtrl", function($scope){
 
       var album = new Object();
       album.nome = musica.album;
+      album.artista = musica.artista;
       album.musicas = [];
       album.musicas.push(musica);
 
