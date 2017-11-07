@@ -7,7 +7,7 @@ app.controller("ispotifaiCtrl", function($scope){
     $scope.favoritos = [];
     $scope.listaArtistaProcurado = [];
     $scope.artistaProcurado = "";
-    $scope.artistaSolicitado = "";
+    $scope.artistaModal = "";
     $scope.menuArtista = false;
     $scope.menuMusica = false;
     $scope.menuListaDeArtistas = false;
@@ -30,6 +30,11 @@ app.controller("ispotifaiCtrl", function($scope){
       delete $scope.artista;
 
     };
+
+    $scope.menuArtistaModal = function(artistaProcurado){
+      $scope.artistaModal = artistaProcurado;
+    }
+
 
     $scope.adicionarMusica = function(musica){
 
@@ -82,13 +87,19 @@ app.controller("ispotifaiCtrl", function($scope){
 
     };
 
-    $scope.informacoesArtista = function(){
+    $scope.informacoesArtistaModal = function(){
+
+
+
 
     }
 
     $scope.adicionaListaDeFavoritos = function (artista){
 
-      $scope.favoritos.push(artista);
+      $scope.favoritos.push(angular.copy(artista));
+
+      alert("Artista adicionado com sucesso!")
+
     }
 
     $scope.criaAlbum = function(musica){

@@ -1,7 +1,7 @@
 .topoPagina{
   text-align: center;
   background-color: #001a00;
-  background-image: url("/home/volney/Documentos/SI/Lab01/Images/index-background.jpg");
+  background-image: url("Images/index-background.jpg");
   background-repeat: round;
   background-attachment: fixed;
   background-position: center;
