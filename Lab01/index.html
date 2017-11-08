@@ -14,7 +14,7 @@
 
   <body class="topoPagina" ng-controller="ispotifaiCtrl">
     <div>
-      <h1 style="font-weight: bold">Ispotifai</h1>
+      <img style="width: 130px; height: 130px"src="Images/icone.png" alt="Ispotifai">
     </div>
 
     <form class="navbar-form" role="search">
@@ -31,10 +31,8 @@
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="artista.nome">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Imagem" ng-model="artista.imagem">
         <button style="margin-top: 5px" class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-disabled="!artista.nome" ng-click="adicionarArtista(artista)">Adicionar</button>
-
       </div>
     </div>
-
     <div class="container" ng-show="menuMusica">
       <div class="botoes">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="musica.nome">
@@ -46,7 +44,6 @@
 
       </div>
     </div>
-
     <div class="container" ng-show="menuListaDeArtistas">
 
       <h3 style="text-align: center; font-weight: bold">Lista de Artistas</h3>
@@ -73,10 +70,38 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">{{artistaModal.nome}}</h4>
+              <h4 class="modal-title">Artista</h4>
             </div>
             <div class="modal-body">
-              <img src="artistaModal.imagem">
+              <div class="">
+                <div class="row">
+                  <div class="col-md-6">
+                    <img style="width: 250px; height: 250px; margin-top: 15px" ng-src="{{artistaModal.imagem}}">
+                    <input class="notas form-control" type="number" placeholder="Nota" ng-model="nota">
+                    <button class="notas btn btn-success btn-block" type="button" name="button" ng-click="adicionarNota(artistaModal, nota)">Atribuir Nota</button>
+                  </div>
+                  <div class="col-md-6">
+                    <ul style="width: 250px; height: 250px" class="list-group">
+                      <h4>Nome:</h4>
+                      <li class="list-group-item list-group-item-success">{{artistaModal.nome}}</li>
+                      <h4>Última Música Ouvida:</h4>
+                      <li class="list-group-item list-group-item-success">...</li>
+                      <h4>Lista de Álbuns</h4>
+                      <li class="list-group-item list-group-item-success">
+                        <div class="dropdown">
+                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Álbuns
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li style="text-align: center" ng-repeat="albumModal in artistaModal.albuns">{{albumModal.nome}}</li>
+                          </ul>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

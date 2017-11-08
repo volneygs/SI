@@ -4,7 +4,6 @@
   background-image: url("Images/index-background.jpg");
   background-repeat: round;
   background-attachment: fixed;
-  background-position: center;
 }
 
 .botoes{
@@ -18,6 +17,11 @@
   text-align: center;
 }
 
-.fonte{
+.notas{
+
+  width: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
 
 }

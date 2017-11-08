@@ -12,6 +12,11 @@ app.controller("ispotifaiCtrl", function($scope){
     $scope.menuMusica = false;
     $scope.menuListaDeArtistas = false;
 
+    $scope.adicionarNota = function(artista, nota){
+      artista.nota = nota;
+      delete $scope.nota;
+    }
+
     $scope.adicionarArtista = function(artista){
 
       var key = false;
@@ -24,6 +29,14 @@ app.controller("ispotifaiCtrl", function($scope){
       }
 
       if(key === false){
+
+        artista.albuns = [];
+
+        for (var i = 0; i < $scope.albuns.length; i++) {
+          if ($scope.albuns[i].artista === artista.nome){
+            artista.albuns.push($scope.albuns[i]);
+          }
+        }
         $scope.artistas.push(artista);
       }
 
@@ -40,7 +53,7 @@ app.controller("ispotifaiCtrl", function($scope){
 
       var naoAdicionado = true;
 
-      if($scope.albuns.length === 0){
+      if($scope.albuns.length < 1){
 
         $scope.albuns.push($scope.criaAlbum(musica));
         alert("Música adicionada com sucesso");
@@ -48,13 +61,14 @@ app.controller("ispotifaiCtrl", function($scope){
       }else{
         for (var i = 0; i < $scope.albuns.length; i++) {
           if($scope.verificaAlbumIgual($scope.albuns[i], musica)){
-            if($scope.verificaMusicaIgual($scope.albuns[i], musica)){
+            if($scope.verificaMusicaIgual($scope.albuns[i], musica) && naoAdicionado){
               alert("Não pode existir duas músicas com o mesmo nome no mesmo álbum");
+              naoAdicionado = false;
             }else{
               if(naoAdicionado){
                 $scope.albuns[i].musicas.push(musica);
                 alert("Música adicionada com sucesso");
-                key = false;
+                naoAdicionado = false;
               }
             }
 
@@ -62,7 +76,7 @@ app.controller("ispotifaiCtrl", function($scope){
             if(naoAdicionado){
               $scope.albuns.push($scope.criaAlbum(musica));
               alert("Música adicionada com sucesso");
-              key = false;
+              naoAdicionado = false;
             }
           }
         }
@@ -87,13 +101,6 @@ app.controller("ispotifaiCtrl", function($scope){
 
     };
 
-    $scope.informacoesArtistaModal = function(){
-
-
-
-
-    }
-
     $scope.adicionaListaDeFavoritos = function (artista){
 
       $scope.favoritos.push(angular.copy(artista));
@@ -108,6 +115,7 @@ app.controller("ispotifaiCtrl", function($scope){
       album.nome = musica.album;
       album.artista = musica.artista;
       album.musicas = [];
+      $scope.adicionaAlbumAoArtista(album);
       album.musicas.push(musica);
 
       return album;
@@ -153,6 +161,16 @@ app.controller("ispotifaiCtrl", function($scope){
 
       }
 
+    };
+
+    $scope.adicionaAlbumAoArtista = function(album){
+      var naoAdicionado = true;
+      for (var i = 0; i < $scope.artistas.length; i++) {
+        if($scope.artistas[i].nome === album.artista && naoAdicionado){
+          $scope.artistas[i].albuns.push(album);
+          naoAdicionado = false;
+        }
+      }
     };
 
 });
