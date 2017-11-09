@@ -1,9 +1,9 @@
 .topoPagina{
-  text-align: center;
   background-color: #001a00;
   background-image: url("Images/index-background.jpg");
   background-repeat: round;
   background-attachment: fixed;
+  color: white;
 }
 
 .botoes{
@@ -15,10 +15,18 @@
 
 .table{
   text-align: center;
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.playlistBotoes{
+  width: 200px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .notas{
-
   width: 100px;
   margin-left: auto;
   margin-right: auto;

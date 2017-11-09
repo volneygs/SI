@@ -13,18 +13,38 @@
   </head>
 
   <body class="topoPagina" ng-controller="ispotifaiCtrl">
-    <div>
+    <div style="text-align:center">
       <img style="width: 130px; height: 130px"src="Images/icone.png" alt="Ispotifai">
     </div>
 
-    <form class="navbar-form" role="search">
+    <form style="text-align: center" class="navbar-form" role="search">
       <div class="form-group">
+        <div class="btn-group">
+          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Menu <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" ng-click="alteraMenu(0)">Todos os artistas</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" ng-click="alteraMenu(4)">Lista de favoritos</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#" ng-click="alteraMenu(6)">Playlists</a></li>
+          </ul>
+        </div>
         <button class="btn btn-success" type="button" name="button" ng-click="alteraMenu(1)">Adicionar Artista</button>
         <button class="btn btn-success" type="button" name="button" ng-click="alteraMenu(2)">Adicionar Música</button>
+        <button class="btn btn-success" type="button" name="button" ng-click="alteraMenu(5)">Adicionar playlist</button>
         <input type="text" class="form-control" placeholder="Artista" ng-model="procurado.nome">
-        <button type="submit" class="btn btn-success my-2 my-sm-0" ng-click="procuraArtista(procurado)">Buscar</button>
+        <button ng-disabled="!procurado.nome" type="submit" class="btn btn-success my-2 my-sm-0" ng-click="procuraArtista(procurado)">Buscar</button>
       </div>
     </form>
+
+    <div class="container" ng-show="menuNovaPlaylist">
+      <div class="botoes">
+        <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="playlist.nome">
+        <button style="margin-top: 5px" class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-click="criaPlaylist(playlist)">Adicionar</button>
+      </div>
+    </div>
 
     <div class="container" ng-show="menuArtista">
       <div class="botoes">
@@ -46,7 +66,7 @@
     </div>
     <div class="container" ng-show="menuListaDeArtistas">
 
-      <h3 style="text-align: center; font-weight: bold">Lista de Artistas</h3>
+      <h3 style="text-align: center; font-weight: bold">Lista de artistas encontrados</h3>
       <table style="width: 500px; margin-right: auto; margin-left: auto" class="table" ng-show="listaArtistaProcurado.length > 0">
 
         <tr>
@@ -61,6 +81,51 @@
 
     </div>
 
+    <div class="container" ng-show="menuPlaylists">
+
+      <h3 style="text-align: center; font-weight: bold">Minhas playlists</h3>
+      <table style="width: 500px; margin-right: auto; margin-left: auto" class="table" ng-show="playlists.length > 0">
+        <tr ng-repeat="playlist in playlists">
+          <td style="text-align: center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalPlaylist" ng-click="menuPlaylistModal(playlist)">{{playlist.nome}}</button></td>
+          <td><td style="text-align: center"><button type="button" class="btn btn-success" ng-click="removePlaylist(playlist)">Remover</button></td></td>
+        </tr>
+      </table>
+
+    </div>
+    <div ng-show="menuFavoritos" class="container">
+
+      <h3 style="text-align: center; font-weight: bold">Lista de favoritos</h3>
+      <table style="width: 500px; margin-right: auto; margin-left: auto" class="table" ng-show="favoritos.length > 0">
+
+        <tr>
+          <th style="text-align: center" class="thead-dark"><h4 style="font-weight: bold">Nome</h4></th>
+          <th style="text-align: center" class="thead-dark"><h4 style="font-weight: bold">Retirar da lista de favoritos</h4></th>
+        </tr>
+        <tr ng-repeat="artistaFavorito in favoritos">
+          <td style="text-align: center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" ng-click="menuArtistaModal(artistaFavorito)">{{artistaFavorito.nome}}</button></td>
+          <td style="text-align: center"><button class="btn btn-success" type="button" name="button" ng-click="excluirDaListaDeFavoritos(artistaFavorito)">Excluir</button></td>
+        </tr>
+      </table>
+
+    </div>
+
+    <div ng-show="menuHome" class="container">
+
+      <h3 style="text-align: center; font-weight: bold">Lista de artistas</h3>
+      <table style="width: 500px; margin-right: auto; margin-left: auto" class="table" ng-show="artistas.length > 0">
+
+        <tr>
+          <th style="text-align: center" class="thead-dark"><h4 style="font-weight: bold">Nome</h4></th>
+          <th style="text-align: center" class="thead-dark"><h4 style="font-weight: bold">Adicionar à lista de favoritos</h4></th>
+        </tr>
+        <tr ng-repeat="artista in artistas">
+          <td style="text-align: center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" ng-click="menuArtistaModal(artista)">{{artista.nome}}</button></td>
+          <td style="text-align: center"><button class="btn btn-success" type="button" name="button" ng-click="adicionaListaDeFavoritos(artista)">Add</button></td>
+        </tr>
+      </table>
+
+    </div>
+
     <div class="container">
       <!-- Modal -->
       <div class="modal fade" id="myModal" role="dialog">
@@ -70,26 +135,26 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Artista</h4>
+              <h2 style="color: black; text-align: center; font-weight: bold" class="modal-title">Artista</h2>
             </div>
             <div class="modal-body">
               <div class="">
                 <div class="row">
                   <div class="col-md-6">
                     <img style="width: 250px; height: 250px; margin-top: 15px" ng-src="{{artistaModal.imagem}}">
-                    <input class="notas form-control" type="number" placeholder="Nota" ng-model="nota">
-                    <button class="notas btn btn-success btn-block" type="button" name="button" ng-click="adicionarNota(artistaModal, nota)">Atribuir Nota</button>
+                    <input style="margin-top: 20px" class="notas form-control" type="number" placeholder="Nota" ng-model="nota">
+                    <button class="notas btn btn-success btn-block" type="button" name="button" ng-click="adicionarNota(artistaModal, nota)">Atribuir</button>
                   </div>
                   <div class="col-md-6">
-                    <ul style="width: 250px; height: 250px" class="list-group">
+                    <ul style="width: 250px; height: 250px; margin-top: 15px;" class="list-group">
                       <h4>Nome:</h4>
                       <li class="list-group-item list-group-item-success">{{artistaModal.nome}}</li>
                       <h4>Última Música Ouvida:</h4>
-                      <li class="list-group-item list-group-item-success">...</li>
+                      <li class="list-group-item list-group-item-success">{{artistaModal.ultimaMusica}}</li>
                       <h4>Lista de Álbuns</h4>
                       <li class="list-group-item list-group-item-success">
                         <div class="dropdown">
-                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                          <button style="width: 120px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             Álbuns
                             <span class="caret"></span>
                           </button>
@@ -99,6 +164,8 @@
                         </div>
                       </li>
                     </ul>
+                    <input style="width: 120px; margin-top: 20px" class="notas form-control" type="text" placeholder="Última Musica" ng-model="ultimaMusica">
+                    <button class="notas btn btn-success btn-block" type="button" name="button" ng-click="mudaUltimaMusica(artistaModal, ultimaMusica)">Atribuir</button>
                   </div>
                 </div>
               </div>
@@ -107,11 +174,44 @@
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
 
+    <div class="container">
+      <!-- Modal -->
+      <div class="modal fade" id="myModalPlaylist" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content *** Usar artistaModal -->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h2 style="color: black; text-align: center; font-weight: bold" class="modal-title">Músicas</h2>
+            </div>
+            <div class="modal-body">
+              <div class="">
+                <table class="table table-striped">
+                  <tr>
+                    <th style="text-align: center">Nome</th>
+                    <th style="text-align: center">Remover da playlist</th>
+                  </tr>
+                  <tr ng-repeat="musicaPlaylist in playlistModal.musicas">
+                    <td>{{musicaPlaylist.nome}}</td>
+                    <td><button class="btn btn-success" type="button" name="button" ng-click="removeMusicaPlaylist(musicaPlaylist)">Remover</button></td>
+                  </tr>
+                </table>
+                <hr/>
+                <input class="playlistBotoes form-control" type="text" placeholder="Música" ng-model="musicaAdd.nome">
+                <button style="margin-left: 185px; margin-top: 5px"class="playlistBotoes btn btn-success" ng-click="adicionaMusicaPlaylist(musicaAdd)" type="button" name="button">Adicionar</button>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
