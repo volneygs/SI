@@ -13,33 +13,48 @@
   </head>
 
   <body class="topoPagina" ng-controller="ispotifaiCtrl">
-    <div style="text-align:center">
-      <img style="width: 130px; height: 130px"src="Images/icone.png" alt="Ispotifai">
-    </div>
-
-    <form style="text-align: center" class="navbar-form" role="search">
-      <div class="form-group">
-        <div class="btn-group">
-          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Menu <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="#" ng-click="alteraMenu(0)">Todos os artistas</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#" ng-click="alteraMenu(4)">Lista de favoritos</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#" ng-click="alteraMenu(6)">Playlists</a></li>
-          </ul>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            <img style="width: 50px; height:-300px; vspace:3px; hspace:3px; align:left; margin-top: -15px" src="Images/icone.png">
+          </a>
         </div>
-        <button class="btn btn-success" type="button" name="button" ng-click="alteraMenu(1)">Adicionar Artista</button>
-        <button class="btn btn-success" type="button" name="button" ng-click="alteraMenu(2)">Adicionar Música</button>
-        <button class="btn btn-success" type="button" name="button" ng-click="alteraMenu(5)">Adicionar playlist</button>
-        <input type="text" class="form-control" placeholder="Artista" ng-model="procurado.nome">
-        <button ng-disabled="!procurado.nome" type="submit" class="btn btn-success my-2 my-sm-0" ng-click="procuraArtista(procurado)">Buscar</button>
+        <ul class="nav navbar-nav">
+          <li class="active">
+            <div class="btn-group">
+              <button type="button" class="botoesNav btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Menu <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="#" ng-click="alteraMenu(0)">Todos os artistas</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" ng-click="alteraMenu(4)">Lista de favoritos</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#" ng-click="alteraMenu(6)">Playlists</a></li>
+              </ul>
+            </div>
+          </li>
+          <li><button class="botoesNav btn btn-success" type="button" name="button" ng-click="alteraMenu(1)">Adicionar Artista</button></li>
+          <li><button class="botoesNav btn btn-success" type="button" name="button" ng-click="alteraMenu(2)">Adicionar Música</button></li>
+          <li><button class="botoesNav btn btn-success" type="button" name="button" ng-click="alteraMenu(5)">Adicionar playlist</button></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Artista" ng-model="procurado.nome">
+            <div class="input-group-btn">
+              <button class="btn btn-default" type="submit" ng-disabled="!procurado.nome" ng-click="procuraArtista(procurado)">
+                <i class="glyphicon glyphicon-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-    </form>
-
+    </nav>
     <div class="container" ng-show="menuNovaPlaylist">
+
+      <h3 style="text-align: center; font-weight: bold">Adicionar Playlist</h3>
+
       <div class="botoes">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="playlist.nome">
         <button style="margin-top: 5px" class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-click="criaPlaylist(playlist)">Adicionar</button>
@@ -47,15 +62,18 @@
     </div>
 
     <div class="container" ng-show="menuArtista">
+      <h3 style="text-align: center; font-weight: bold">Adicionar Artista</h3>
       <div class="botoes">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="artista.nome">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Imagem" ng-model="artista.imagem">
         <button style="margin-top: 5px" class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-disabled="!artista.nome" ng-click="adicionarArtista(artista)">Adicionar</button>
+        {{artista}}
       </div>
     </div>
     <div class="container" ng-show="menuMusica">
+      <h3 style="text-align: center; font-weight: bold">Adicionar Música</h3>
       <div class="botoes">
-        <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="musica.nome">
+        <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="musicxa.nome">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Artista" ng-model="musica.artista">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Álbum" ng-model="musica.album">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Ano de Lançamento" ng-model="musica.anoDeLancamento">
@@ -178,7 +196,7 @@
       </div>
     </div>
 
-    <div class="container">
+    <div style="color: black" class="container">
       <!-- Modal -->
       <div class="modal fade" id="myModalPlaylist" role="dialog">
         <div class="modal-dialog">

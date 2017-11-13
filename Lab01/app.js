@@ -24,6 +24,7 @@ app.controller("ispotifaiCtrl", function($scope){
       delete $scope.musicaAdd;
     }
 
+
     $scope.removeMusicaPlaylist = function(musicaPlaylist){
 
       var naoExcluido = true;
