@@ -10,6 +10,9 @@ app.controller("ispotifaiCtrl", function($scope){
     $scope.artistaProcurado = "";
     $scope.artistaModal = "";
     $scope.playlistModal = "";
+    $scope.artistaExcluir = "";
+    $scope.playlistExcluir ="";
+    $scope.musicaExcluir = "";
     $scope.menuArtista = false;
     $scope.menuMusica = false;
     $scope.menuListaDeArtistas = false;
@@ -19,18 +22,32 @@ app.controller("ispotifaiCtrl", function($scope){
     $scope.menuPlaylists = false;
 
     $scope.adicionaMusicaPlaylist = function(musicaAdd){
-      $scope.playlistModal.musicas.push(musicaAdd);
+
+      for (var i = 0; i < $scope.albuns.length; i++) {
+        for (var j = 0; j < $scope.albuns[i].musicas.length; j++) {
+          if($scope.albuns[i].musicas[j].nome === musicaAdd){
+            $scope.playlistModal.musicas.push($scope.albuns[i].musicas[j]);
+            delete $scope.musicaAdd;
+            return true;
+          }
+        }
+      }
+
+      alert("Música não cadastrada no sistema!");
 
       delete $scope.musicaAdd;
+
+      return false;
+
     }
 
 
-    $scope.removeMusicaPlaylist = function(musicaPlaylist){
+    $scope.removeMusicaPlaylist = function(){
 
       var naoExcluido = true;
 
       for (var i = $scope.playlistModal.musicas.length -1; i >= 0; i--) {
-        if($scope.playlistModal.musicas[i].nome === musicaPlaylist.nome && naoExcluido){
+        if($scope.playlistModal.musicas[i].nome === $scope.musicaExcluir.nome && naoExcluido){
           $scope.playlistModal.musicas.splice(i,1);
           naoExcluido = false;
         }
@@ -56,12 +73,12 @@ app.controller("ispotifaiCtrl", function($scope){
       delete $scope.playlist;
     };
 
-    $scope.removePlaylist = function(playlist){
+    $scope.removePlaylist = function(){
 
       var naoRemovido = true;
 
       for(var i = $scope.playlists.length-1; i >= 0; i--){
-        if ($scope.playlists[i].nome === playlist.nome && naoRemovido){
+        if ($scope.playlists[i].nome === $scope.playlistExcluir.nome && naoRemovido){
           $scope.playlists.splice(i,1);
           naoRemovido = false;
         }
@@ -69,7 +86,12 @@ app.controller("ispotifaiCtrl", function($scope){
     };
 
     $scope.adicionarNota = function(artista, nota){
-      artista.nota = nota;
+      if(nota > 10 || nota < 0){
+        alert("A nota deve estar entre 0 e 10!")
+      }else{
+        artista.nota = nota;
+      }
+
       delete $scope.nota;
     }
 
@@ -87,6 +109,7 @@ app.controller("ispotifaiCtrl", function($scope){
       if(key === false){
 
         artista.albuns = [];
+        artista.nota = "-";
         artista.ultimaMusica = "Nenhuma música ouvida!"
 
         for (var i = 0; i < $scope.albuns.length; i++) {
@@ -181,16 +204,28 @@ app.controller("ispotifaiCtrl", function($scope){
       }
     }
 
-    $scope.excluirDaListaDeFavoritos = function(artista){
+    $scope.excluirDaListaDeFavoritos = function(){
 
       var naoExcluido = true;
 
       for (var i = $scope.favoritos.length -1; i >= 0; i--) {
-        if($scope.favoritos[i].nome === artista.nome && naoExcluido){
+        if($scope.favoritos[i].nome === $scope.artistaExcluir.nome && naoExcluido){
           $scope.favoritos.splice(i,1);
           naoExcluido = false;
         }
       }
+    }
+
+    $scope.confirmaExcluirArtistaFavoritos = function(artista){
+      $scope.artistaExcluir = artista;
+    }
+
+    $scope.confirmaExcluirPlaylist = function(playlist){
+      $scope.playlistExcluir = playlist;
+    }
+
+    $scope.confirmaExcluirMusica = function(musica){
+      $scope.musicaExcluir = musica;
     }
 
     $scope.criaAlbum = function(musica){
@@ -309,7 +344,19 @@ app.controller("ispotifaiCtrl", function($scope){
     };
 
     $scope.mudaUltimaMusica = function(artistaModal, ultimaMusica){
-      artistaModal.ultimaMusica = ultimaMusica;
+
+      var naoTrocado = true;
+
+      for (var i = 0; i < artistaModal.albuns.length; i++) {
+        if(artistaModal.albuns[i].nome === ultimaMusica && naoTrocado){
+          artistaModal.ultimaMusica = ultimaMusica;
+          naoTrocado = false;
+        }
+      }
+
+      if(naoTrocado){
+        alert("Música não pertence ao artista selecionado!");
+      }
 
       delete $scope.ultimaMusica;
     }

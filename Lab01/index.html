@@ -67,13 +67,12 @@
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="artista.nome">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Imagem" ng-model="artista.imagem">
         <button style="margin-top: 5px" class="btn-block btn btn-success" style="width: 400px; margin-right: auto" type="button" ng-disabled="!artista.nome" ng-click="adicionarArtista(artista)">Adicionar</button>
-        {{artista}}
       </div>
     </div>
     <div class="container" ng-show="menuMusica">
       <h3 style="text-align: center; font-weight: bold">Adicionar Música</h3>
       <div class="botoes">
-        <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="musicxa.nome">
+        <input style="margin-top: 5px" class="form-control" type="text" placeholder="Nome" ng-model="musica.nome">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Artista" ng-model="musica.artista">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Álbum" ng-model="musica.album">
         <input style="margin-top: 5px" class="form-control" type="text" placeholder="Ano de Lançamento" ng-model="musica.anoDeLancamento">
@@ -105,7 +104,7 @@
       <table style="width: 500px; margin-right: auto; margin-left: auto" class="table" ng-show="playlists.length > 0">
         <tr ng-repeat="playlist in playlists">
           <td style="text-align: center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalPlaylist" ng-click="menuPlaylistModal(playlist)">{{playlist.nome}}</button></td>
-          <td><td style="text-align: center"><button type="button" class="btn btn-success" ng-click="removePlaylist(playlist)">Remover</button></td></td>
+          <td><td style="text-align: center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#confirmacaoExcluirPlaylist" ng-click="confirmaExcluirPlaylist(playlist)">Remover</button></td></td>
         </tr>
       </table>
 
@@ -121,7 +120,7 @@
         </tr>
         <tr ng-repeat="artistaFavorito in favoritos">
           <td style="text-align: center"><button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" ng-click="menuArtistaModal(artistaFavorito)">{{artistaFavorito.nome}}</button></td>
-          <td style="text-align: center"><button class="btn btn-success" type="button" name="button" ng-click="excluirDaListaDeFavoritos(artistaFavorito)">Excluir</button></td>
+          <td style="text-align: center"><button class="btn btn-success" type="button" name="button" data-toggle="modal" data-target="#confirmacaoExlcuirArtistaFavorito" ng-click="confirmaExcluirArtistaFavoritos(artistaFavorito)">Excluir</button></td>
         </tr>
       </table>
 
@@ -155,22 +154,22 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h2 style="color: black; text-align: center; font-weight: bold" class="modal-title">Artista</h2>
             </div>
-            <div class="modal-body">
+            <div style="height: 360px" class="modal-body">
               <div class="">
                 <div class="row">
                   <div class="col-md-6">
-                    <img style="width: 250px; height: 250px; margin-top: 15px" ng-src="{{artistaModal.imagem}}">
-                    <input style="margin-top: 20px" class="notas form-control" type="number" placeholder="Nota" ng-model="nota">
-                    <button class="notas btn btn-success btn-block" type="button" name="button" ng-click="adicionarNota(artistaModal, nota)">Atribuir</button>
-                  </div>
+                    <img style="width: 260px; height: 317px; margin-top: 15px" ng-src="{{artistaModal.imagem}}">
+                    </div>
                   <div class="col-md-6">
                     <ul style="width: 250px; height: 250px; margin-top: 15px;" class="list-group">
-                      <h4 style="color: black; font-weight: bold">Nome:</h4>
-                      <li class="list-group-item list-group-item-success">{{artistaModal.nome}}</li>
-                      <h4 style="color: black; font-weight: bold">Última Música Ouvida:</h4>
-                      <li class="list-group-item list-group-item-success">{{artistaModal.ultimaMusica}}</li>
-                      <h4 style="color: black; font-weight: bold">Lista de Álbuns</h4>
-                      <li class="list-group-item list-group-item-success">
+                      <p style="color: black; font-weight: bold">Nome:</p>
+                      <li style="margin-bottom: 5px" class="list-group-item list-group-item-success">{{artistaModal.nome}}</li>
+                      <p style="color: black; font-weight: bold">Última Música Ouvida:</p>
+                      <li style="margin-bottom: 5px" class="list-group-item list-group-item-success">{{artistaModal.ultimaMusica}}</li>
+                      <p style="color: black; font-weight: bold">Nota:</p>
+                      <li style="margin-bottom: 5px" class="list-group-item list-group-item-success">{{artistaModal.nota}}</li>
+                      <p style="color: black; font-weight: bold">Lista de Álbuns</p>
+                      <li style="margin-left: auto; margin-right: auto; margin-bottom: 5px" class="list-group-item list-group-item-success">
                         <div class="dropdown">
                           <button style="width: 120px" class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             Álbuns
@@ -182,14 +181,21 @@
                         </div>
                       </li>
                     </ul>
-                    <input style="width: 120px; margin-top: 20px" class="notas form-control" type="text" placeholder="Última Musica" ng-model="ultimaMusica">
-                    <button class="notas btn btn-success btn-block" type="button" name="button" ng-click="mudaUltimaMusica(artistaModal, ultimaMusica)">Atribuir</button>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <div class="row">
+                <div class="col-lg-6">
+                  <input style="width: 120px" class="notas form-control" type="text" placeholder="Última Música" ng-model="ultimaMusica">
+                  <button style=""class="notas btn btn-success btn-block" type="button" name="button" ng-click="mudaUltimaMusica(artistaModal, ultimaMusica)">Atribuir</button>
+                </div>
+                <div class="col-lg-6">
+                  <input style="width: 120px" class="notas form-control" type="number" placeholder="Nota" ng-model="nota">
+                  <button style="" class="notas btn btn-success btn-block" type="button" name="button" ng-click="adicionarNota(artistaModal, nota)">Atribuir</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -203,33 +209,72 @@
 
           <!-- Modal content *** Usar artistaModal -->
           <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-body">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
               <h2 style="color: black; text-align: center; font-weight: bold" class="modal-title">Músicas</h2>
-            </div>
-            <div class="modal-body">
               <div class="">
-                <table class="table table-striped">
+                <table ng-show="playlistModal.musicas.length > 0"class="table table-striped">
                   <tr>
                     <th style="text-align: center">Nome</th>
                     <th style="text-align: center">Remover da playlist</th>
                   </tr>
                   <tr ng-repeat="musicaPlaylist in playlistModal.musicas">
                     <td>{{musicaPlaylist.nome}}</td>
-                    <td><button class="btn btn-success" type="button" name="button" ng-click="removeMusicaPlaylist(musicaPlaylist)">Remover</button></td>
+                    <td><button class="btn btn-success" type="button" name="button" data-toggle="modal" data-target="#confirmacaoExcluirMusica" ng-click="confirmaExcluirMusica(musicaPlaylist)">Remover</button></td>
                   </tr>
                 </table>
-                <hr/>
-                <input class="playlistBotoes form-control" type="text" placeholder="Música" ng-model="musicaAdd.nome">
-                <button style="margin-left: 185px; margin-top: 5px"class="playlistBotoes btn btn-success" ng-click="adicionaMusicaPlaylist(musicaAdd)" type="button" name="button">Adicionar</button>
-              </div>
+                </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <input class="playlistBotoes form-control" type="text" placeholder="Música" ng-model="musicaAdd">
+              <button class="playlistBotoes btn btn-block btn-success" ng-click="adicionaMusicaPlaylist(musicaAdd)" type="button" name="button">Adicionar</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div id="confirmacaoExlcuirArtistaFavorito" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h4 style="color: black; text-align: center">Deseja realmente excluir esse artista  da lista de favoritos?</h4>
+            <div style="margin-left: 190px" class="btn-group" role="group">
+              <button style="width: 100px" type="button" class="btn btn-success" data-dismiss="modal" ng-click="excluirDaListaDeFavoritos()">Sim</button>
+              <button style="width: 100px" type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirmacaoExcluirPlaylist" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h4 style="color: black; text-align: center">Deseja realmente excluir essa playlist?</h4>
+            <div style="margin-left: 190px" class="btn-group" role="group">
+              <button style="width: 100px" type="button" class="btn btn-success" data-dismiss="modal" ng-click="removePlaylist()">Sim</button>
+              <button style="width: 100px" type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirmacaoExcluirMusica" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <h4 style="color: black; text-align: center">Deseja realmente excluir essa música?</h4>
+            <div style="margin-left: 190px" class="btn-group" role="group">
+              <button style="width: 100px" type="button" class="btn btn-success" data-dismiss="modal" ng-click="removeMusicaPlaylist()">Sim</button>
+              <button style="width: 100px" type="button" class="btn btn-success" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>
