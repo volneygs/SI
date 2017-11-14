@@ -137,7 +137,7 @@ app.controller("ispotifaiCtrl", function($scope){
 
       var naoAdicionado = true;
 
-      if($scope.albuns.length < 1){
+      if($scope.albuns.length === 0){
 
         $scope.albuns.push($scope.criaAlbum(musica));
         alert("Música adicionada com sucesso");
@@ -348,9 +348,11 @@ app.controller("ispotifaiCtrl", function($scope){
       var naoTrocado = true;
 
       for (var i = 0; i < artistaModal.albuns.length; i++) {
-        if(artistaModal.albuns[i].nome === ultimaMusica && naoTrocado){
-          artistaModal.ultimaMusica = ultimaMusica;
-          naoTrocado = false;
+        for (var j = 0; j < artistaModal.albuns[i].musicas.length; j++) {
+          if(artistaModal.albuns[i].musicas[j].nome === ultimaMusica && naoTrocado){
+            artistaModal.ultimaMusica = ultimaMusica;
+            naoTrocado = false;
+          }
         }
       }
 
